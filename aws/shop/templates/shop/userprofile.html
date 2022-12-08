@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <style>
+        .errors{
+        color:red;
+        }
+        .myform {
+  padding-top: 100px;
+
+      }
+      .users{
+       padding-top: 40px;
+       margin-left:10px
+       }
+       .msg{
+       color:red;
+       }
+
+
+    </style>
+</head>
+<body>
+
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col md-4">
+            <ul class="list-group list-group-flush col-md-2 my-3 users">
+
+                {% if all_users is not None %}
+                    <li class="list-group-item"><h3> Users </h3></li>
+                    {% for user in all_users%}
+                        <li class="list-group-item"><a href="{% url 'admin_view_profile' user.id %}">
+                            <button class="btn btn-light">{{user}}</button>
+                        </a></li>
+                    {% endfor %}
+                    {% endif %}
+            </ul>
+
+            <div class=" container my-3 col-sm-4  col-md-offset-5 align-center myform">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <span class="msg">
+                            {% if messages %}
+                            {% for message in messages %}
+                            {{ message }}
+                            {% endfor %}
+                            {% endif %}
+                        </span>
+                        {% if form is not None %}
+                            <h2 class=" my-3 ">Profile</h2>
+                        {% endif %}
+
+                        <form action="#" method="post" novalidate>
+                            {% csrf_token %}
+
+                            {% for field in form %}
+                            <div class="form-group">
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                <span class="errors">{{ field.errors|striptags }}</span>
+                            </div>
+                            {% endfor %}
+                            {% if form is not None %}
+                                <input type="submit" class="btn btn-info my-2" value="Save">
+                                <a href="{% url 'ShopHome' %}" class="btn btn-warning"> Go Back</a>
+                            {% endif %}
+
+                            {% if form.non_field_errors %}
+                                {% for error in form.non_field_errors %}
+                                    <span class="errors"> {{ error }} </span>
+                                {% endfor %}
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if all_users is not None %}
+            <div class="col md-8 users">
+                <h2>Tables</h2>
+                <a href="{% url 'check' %}" class="btn btn-warning"> Products</a>
+                <br><br><a  href="{% url 'ShopHome' %}" class="btn btn-info"> Go Back</a>
+            </div>
+         {% endif %}
+    </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+        crossorigin="anonymous"></script>
+</body>
+</html>
